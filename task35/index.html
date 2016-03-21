@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>block</title>
+
+        <style media="screen">
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            #main {
+                width: 100%;
+                height: 500px;
+            }
+
+            #main #block {
+                width: 50px;
+                height: 50px;
+                border: 1px solid #000;
+                background-color: rgba(127, 221, 142, 0.78);
+                position: relative;
+
+                transition: all 1s ease-in-out 0s;
+            }
+
+            #command {
+                width: 300px;
+                height: 200px;
+                background-color: rgb(67, 83, 107);
+                margin-left: 50px;
+                color: #fff;
+                font-size: 1.2em;
+            }
+
+            #sub {
+                width: 60px;
+                height: 25px;
+                background: rgb(91, 103, 107);
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main">
+            <div id="block" style="top: 0px; left: 0px;">
+
+            </div>
+        </div>
+        <textarea id="command" rows="10086" cols="40">
+
+        </textarea>
+        <input type="button" id="sub" value="GO!">
+
+        <script type="text/javascript">
+            document.body.onload = function () {
+                var step = 50,
+                    sWidth = document.body.offsetWidth,
+                    sHeight = document.body.offsetHeight;
+
+                var block = document.getElementById("block"),
+                    command = document.getElementById("command"),
+                    sub = document.getElementById("sub");
+                var com;
+                command.onfocus = function () {
+                    this.value = "";
+                };
+                command.onblur = function () {
+                    if (command.value != "") {
+
+                    }else {
+                        command.value = "like : left 2, up 3, down 4, right 5";
+                    }
+                }
+                sub.onclick = function() {
+                    com = command.value;
+                    if (com[2] == "k") {
+                        com = "";
+                        alert("input the right command");
+                    }
+                    else if(com.trim() == "") {
+                        alert("empty input");
+                    }
+
+                    var commands = com.split("\n");
+                    for(let i = 0;i < commands.length; i++) {
+                        com = commands[i];
+
+                        (function(j){
+                            var com1 = com.trim().split(" ")[0],
+                                com2 = parseInt(com.trim().split(" ")[1]);
+                            switch (com1) {
+                                case "left":
+                                    var bLeft = parseInt(block.style.left);
+                                    if (bLeft < com2 * step) {
+                                        alert("left break!!");
+                                        break;
+                                    }
+                                    setTimeout(function(){
+                                        block.style.left = bLeft - com2 * step + "px";
+                                    }, (j+1)*1000);
+                                    break;
+                                case "right":
+                                    var bLeft = parseInt(block.style.left);
+                                    if (bLeft + 50 + com2 * step > sWidth) {
+                                        alert("right break!!");
+                                        break;
+                                    }
+                                    setTimeout(function() {
+                                        block.style.left = bLeft + com2 * step + "px";
+                                    },(j+1)*1000);
+                                    break;
+                                case "up":
+                                    var bTop = parseInt(block.style.top);
+                                    if (bTop < com2 * step) {
+                                        alert("top break!!");
+                                        break;
+                                    }
+                                    setTimeout(function() {
+                                        block.style.top = bTop - com2 * step + "px";
+                                    }, (j+1)*1000);
+                                    break;
+                                case "down":
+                                    var bTop = parseInt(block.style.top);
+                                    if (bTop + com2*step + 50 > sHeight) {
+                                        alert("down break!!");
+                                        break;
+                                    }
+                                    setTimeout(function() {
+                                        block.style.top = bTop + com2 * step + "px";
+                                    }, (j+1)*1000);
+                                    break;
+                                default:
+                                    alert("enter the correct command");
+                            }
+                        })(i);
+                    }
+                };
+
+            }
+        </script>
+    </body>
+</html>
