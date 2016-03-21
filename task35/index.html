@@ -26,7 +26,7 @@
             }
 
             #command {
-                width: 300px;
+                width: 350px;
                 height: 200px;
                 background-color: rgb(67, 83, 107);
                 color: #fff;
@@ -65,7 +65,8 @@
         </div>
         <div>
             <textarea id="colNum" rows="10086" cols="1">1</textarea>
-            <textarea id="command" rows="10086" cols="40">like : left 2, up 3, down 4, right 5
+            <textarea id="command" rows="10086" cols="40">
+like : right 4 , down 3 , left 3 , up 4
             </textarea>
         </div>
         <input type="button" id="sub" value="GO!">
@@ -90,7 +91,7 @@
                     if (command.value != "") {
 
                     }else {
-                        command.value = "like : left 2, up 3, down 4, right 5";
+                        command.value = "right 4\ndown 4\nleft 4\nup 4";
                     }
                 };
 
