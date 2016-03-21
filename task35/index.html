@@ -31,7 +31,7 @@
                 background-color: rgb(67, 83, 107);
                 color: #fff;
                 font-size: 1.2em;
-                overflow-y: scroll;
+                overflow-y: visible;
             }
 
             #sub {
@@ -48,7 +48,12 @@
                 background: rgb(157, 157, 157);
                 color: #fff;
                 font-size: 1.2em;
-                overflow-y: scroll;
+                overflow-y: visible;
+            }
+
+            ::-webkit-scrollbar {
+                width: 0;
+                height: 0;
             }
         </style>
     </head>
@@ -73,7 +78,8 @@
 
                 var block = document.getElementById("block"),
                     command = document.getElementById("command"),
-                    sub = document.getElementById("sub");
+                    sub = document.getElementById("sub"),
+                    colArea= document.getElementById("colNum");
                 var com,
                     lineCnt = 1;
                 command.onfocus = function () {
@@ -86,12 +92,15 @@
                     }else {
                         command.value = "like : left 2, up 3, down 4, right 5";
                     }
-                }
+                };
+
+                command.onscroll = function() {
+                    colArea.scrollTop = this.scrollTop;
+                };
 
                 command.onkeydown = function(e) {
                     if(e.keyCode == 13) {
                         lineCnt ++;
-                        var colArea= document.getElementById("colNum");
                         colArea.value += "\n" + lineCnt;
                     }
                 };
