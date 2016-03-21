@@ -99,10 +99,20 @@ like : right 4 , down 3 , left 3 , up 4
                     colArea.scrollTop = this.scrollTop;
                 };
 
-                command.onkeydown = function(e) {
+                command.onkeyup = function(e) {
                     if(e.keyCode == 13) {
                         lineCnt ++;
                         colArea.value += "\n" + lineCnt;
+                    } else if(e.keyCode == 8) {
+                        let comm = command.value;
+                        lineCnt = 1;
+                        colArea.value = "1";
+                        for(let i = 0; i<comm.length; i++) {
+                            if(comm[i] == "\n") {
+                                lineCnt++;
+                                colArea.value += "\n" + lineCnt;
+                            }
+                        }
                     }
                 };
 
