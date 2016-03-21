@@ -29,16 +29,26 @@
                 width: 300px;
                 height: 200px;
                 background-color: rgb(67, 83, 107);
-                margin-left: 50px;
                 color: #fff;
                 font-size: 1.2em;
+                overflow-y: scroll;
             }
 
             #sub {
                 width: 60px;
                 height: 25px;
+                margin-left: 50px;
                 background: rgb(91, 103, 107);
                 color: #fff;
+            }
+
+            #colNum {
+                height: 200px;
+                margin-left: 50px;
+                background: rgb(157, 157, 157);
+                color: #fff;
+                font-size: 1.2em;
+                overflow-y: scroll;
             }
         </style>
     </head>
@@ -48,9 +58,11 @@
 
             </div>
         </div>
-        <textarea id="command" rows="10086" cols="40">
-
-        </textarea>
+        <div>
+            <textarea id="colNum" rows="10086" cols="1">1</textarea>
+            <textarea id="command" rows="10086" cols="40">like : left 2, up 3, down 4, right 5
+            </textarea>
+        </div>
         <input type="button" id="sub" value="GO!">
 
         <script type="text/javascript">
@@ -62,10 +74,12 @@
                 var block = document.getElementById("block"),
                     command = document.getElementById("command"),
                     sub = document.getElementById("sub");
-                var com;
+                var com,
+                    lineCnt = 1;
                 command.onfocus = function () {
                     this.value = "";
                 };
+
                 command.onblur = function () {
                     if (command.value != "") {
 
@@ -73,6 +87,15 @@
                         command.value = "like : left 2, up 3, down 4, right 5";
                     }
                 }
+
+                command.onkeydown = function(e) {
+                    if(e.keyCode == 13) {
+                        lineCnt ++;
+                        var colArea= document.getElementById("colNum");
+                        colArea.value += "\n" + lineCnt;
+                    }
+                };
+
                 sub.onclick = function() {
                     com = command.value;
                     if (com[2] == "k") {
@@ -85,50 +108,53 @@
 
                     var commands = com.split("\n");
                     for(let i = 0;i < commands.length; i++) {
-                        com = commands[i];
-
                         (function(j){
+                            com = commands[j];
                             var com1 = com.trim().split(" ")[0],
                                 com2 = parseInt(com.trim().split(" ")[1]);
                             switch (com1) {
                                 case "left":
-                                    var bLeft = parseInt(block.style.left);
-                                    if (bLeft < com2 * step) {
-                                        alert("left break!!");
-                                        break;
-                                    }
                                     setTimeout(function(){
-                                        block.style.left = bLeft - com2 * step + "px";
+                                        var bLeft = parseInt(block.style.left);
+                                        if (bLeft >= com2 * step) {
+                                            // break;
+                                            block.style.left = bLeft - com2 * step + "px";
+                                        } else {
+                                            alert("left break!!");
+                                        }
                                     }, (j+1)*1000);
                                     break;
                                 case "right":
-                                    var bLeft = parseInt(block.style.left);
-                                    if (bLeft + 50 + com2 * step > sWidth) {
-                                        alert("right break!!");
-                                        break;
-                                    }
                                     setTimeout(function() {
-                                        block.style.left = bLeft + com2 * step + "px";
+                                        var bLeft = parseInt(block.style.left);
+                                        if (bLeft + 50 + com2 * step <= sWidth) {
+                                            // break;
+                                            block.style.left = bLeft + com2 * step + "px";
+                                        }else {
+                                            alert("right break!!");
+                                        }
                                     },(j+1)*1000);
                                     break;
                                 case "up":
-                                    var bTop = parseInt(block.style.top);
-                                    if (bTop < com2 * step) {
-                                        alert("top break!!");
-                                        break;
-                                    }
                                     setTimeout(function() {
-                                        block.style.top = bTop - com2 * step + "px";
+                                        var bTop = parseInt(block.style.top);
+                                        if (bTop >= com2 * step) {
+                                            // break;
+                                            block.style.top = bTop - com2 * step + "px";
+                                        } else {
+                                            alert("top break!!");
+                                        }
                                     }, (j+1)*1000);
                                     break;
                                 case "down":
-                                    var bTop = parseInt(block.style.top);
-                                    if (bTop + com2*step + 50 > sHeight) {
-                                        alert("down break!!");
-                                        break;
-                                    }
                                     setTimeout(function() {
-                                        block.style.top = bTop + com2 * step + "px";
+                                        var bTop = parseInt(block.style.top);
+                                        if (bTop + com2*step + 50 <= sHeight) {
+                                            // break;
+                                            block.style.top = bTop + com2 * step + "px";
+                                        } else {
+                                            alert("down break!!");
+                                        }
                                     }, (j+1)*1000);
                                     break;
                                 default:
