@@ -90,10 +90,10 @@ like : right 4 , down 3 , left 3 , up 4
                     lineCnt = 1;
 
                 var checkLine = function (){
-                    let comm = command.value;
+                    var comm = command.value;
                     lineCnt = 1;
                     colArea.value = "1";
-                    for(let i = 0; i<comm.length; i++) {
+                    for(var i = 0; i<comm.length; i++) {
                         if(comm[i] == "\n") {
                             lineCnt++;
                             colArea.value += "\n" + lineCnt;
@@ -136,7 +136,7 @@ like : right 4 , down 3 , left 3 , up 4
                     }
 
                     var commands = com.split("\n");
-                    for(let i = 0;i < commands.length; i++) {
+                    for(var i = 0;i < commands.length; i++) {
                         (function(j){
                             com = commands[j];
                             var com1 = com.trim().split(" ")[0],
@@ -171,7 +171,7 @@ like : right 4 , down 3 , left 3 , up 4
                                             // break;
                                             block.style.top = bTop - com2 * step + "px";
                                         } else {
-                                            alert("top break!!");
+                                            alert("fuck break!!");
                                         }
                                     }, j*1000);
                                     break;
@@ -182,7 +182,7 @@ like : right 4 , down 3 , left 3 , up 4
                                             // break;
                                             block.style.top = bTop + com2 * step + "px";
                                         } else {
-                                            alert("down break!!");
+                                            alert("shit break!!");
                                         }
                                     }, j*1000);
                                     break;
