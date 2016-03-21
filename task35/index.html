@@ -34,8 +34,8 @@
                 overflow-y: visible;
             }
 
-            #sub {
-                width: 60px;
+            #sub, #clear, #demo {
+                width: 90px;
                 height: 25px;
                 margin-left: 50px;
                 background: rgb(91, 103, 107);
@@ -70,6 +70,8 @@ like : right 4 , down 3 , left 3 , up 4
             </textarea>
         </div>
         <input type="button" id="sub" value="GO!">
+        <input type="button" id="clear" value="Clear">
+        <input type="button" id="demo" value="play demo">
 
         <script type="text/javascript">
             document.body.onload = function () {
@@ -80,18 +82,22 @@ like : right 4 , down 3 , left 3 , up 4
                 var block = document.getElementById("block"),
                     command = document.getElementById("command"),
                     sub = document.getElementById("sub"),
-                    colArea= document.getElementById("colNum");
+                    colArea= document.getElementById("colNum"),
+                    clear = document.getElementById("clear"),
+                    demo = document.getElementById("demo");
+
                 var com,
                     lineCnt = 1;
-                command.onfocus = function () {
-                    this.value = "";
-                };
 
-                command.onblur = function () {
-                    if (command.value != "") {
-
-                    }else {
-                        command.value = "right 4\ndown 4\nleft 4\nup 4";
+                var checkLine = function (){
+                    let comm = command.value;
+                    lineCnt = 1;
+                    colArea.value = "1";
+                    for(let i = 0; i<comm.length; i++) {
+                        if(comm[i] == "\n") {
+                            lineCnt++;
+                            colArea.value += "\n" + lineCnt;
+                        }
                     }
                 };
 
@@ -104,16 +110,19 @@ like : right 4 , down 3 , left 3 , up 4
                         lineCnt ++;
                         colArea.value += "\n" + lineCnt;
                     } else if(e.keyCode == 8) {
-                        let comm = command.value;
-                        lineCnt = 1;
-                        colArea.value = "1";
-                        for(let i = 0; i<comm.length; i++) {
-                            if(comm[i] == "\n") {
-                                lineCnt++;
-                                colArea.value += "\n" + lineCnt;
-                            }
-                        }
+                        checkLine();
                     }
+                };
+
+                clear.onclick = function() {
+                    command.value = "";
+                    checkLine();
+                };
+
+                demo.onclick = function() {
+                    command.value = "right 4\ndown 4\nleft 4\nup 4";
+                    checkLine();
+                    sub.click();
                 };
 
                 sub.onclick = function() {
@@ -142,7 +151,7 @@ like : right 4 , down 3 , left 3 , up 4
                                         } else {
                                             alert("left break!!");
                                         }
-                                    }, (j+1)*1000);
+                                    }, j*1000);
                                     break;
                                 case "right":
                                     setTimeout(function() {
@@ -153,7 +162,7 @@ like : right 4 , down 3 , left 3 , up 4
                                         }else {
                                             alert("right break!!");
                                         }
-                                    },(j+1)*1000);
+                                    },j*1000);
                                     break;
                                 case "up":
                                     setTimeout(function() {
@@ -164,7 +173,7 @@ like : right 4 , down 3 , left 3 , up 4
                                         } else {
                                             alert("top break!!");
                                         }
-                                    }, (j+1)*1000);
+                                    }, j*1000);
                                     break;
                                 case "down":
                                     setTimeout(function() {
@@ -175,7 +184,7 @@ like : right 4 , down 3 , left 3 , up 4
                                         } else {
                                             alert("down break!!");
                                         }
-                                    }, (j+1)*1000);
+                                    }, j*1000);
                                     break;
                                 default:
                                     alert("enter the correct command");
@@ -183,7 +192,6 @@ like : right 4 , down 3 , left 3 , up 4
                         })(i);
                     }
                 };
-
             }
         </script>
     </body>
