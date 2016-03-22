@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Task 36</title>
+    <style media="screen">
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .main {
+            float: left;
+            width: 550px;
+            height: 550px;
+        }
+
+        #square {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            background-color: lightblue;
+            border: 1px solid #000;
+            box-sizing: border-box;
+            transition: all 1s ease-in-out 0s;
+        }
+
+        #square #redS {
+            width: 48px;
+            height: 10px;
+            border: 0;
+            box-sizing: border-box;
+            background-color: rgb(255, 138, 201);
+        }
+
+        .main > table {
+            width: 500px;
+            height: 500px;
+            border: 0;
+            border-collapse: collapse;
+        }
+
+        table td {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #000;
+            box-sizing: border-box;
+        }
+
+        .control {
+            float: left;
+            margin-top: 50px;
+            margin-left: 25px;
+            width: 450px;
+            height: 450px;
+            border: 1px solid #000;
+        }
+
+        #command {
+            width: 350px;
+            height: 200px;
+            background-color: rgb(67, 83, 107);
+            color: #fff;
+            font-size: 1.2em;
+            overflow-y: visible;
+            margin-left: -4px;
+        }
+
+        #sub,#clear,#demo, #turnL, #turnR {
+            width: 90px;
+            height: 25px;
+            background: rgb(91, 103, 107);
+            color: #fff;
+        }
+
+        #colNum {
+            height: 200px;
+            background: rgb(157, 157, 157);
+            color: #fff;
+            font-size: 1.2em;
+            overflow-y: visible;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div id="square" style="top: 0px; left: 0px; transform: null;">
+            <div id="redS"></div>
+            <div id="blueS"></div>
+        </div>
+        <table cellspacing="0" cellpadding="0"></table>
+    </div>
+
+    <div class="control">
+        <div>
+            <textarea id="colNum" rows="10086" cols="1">1</textarea>
+            <textarea id="command" rows="10086" cols="40">
+like : right 4 , down 3 , left 3 , up 4
+            </textarea>
+        </div>
+        <input type="button" id="sub" value="Move!">
+        <input type="button" id="clear" value="Clear">
+        <input type="button" id="demo" value="play demo">
+        <input type="button" id="turnL" value="Turn left">
+        <input type="button" id="turnR" value="Turn right">
+    </div>
+
+    <script type="text/javascript">
+        var initTable = function(t) {
+            for (let i = 0; i < 10; i++) {
+                let tr = document.createElement("tr");
+                for (let i = 0; i < 10; i++) {
+                    let td = document.createElement("td");
+                    tr.appendChild(td);
+                }
+                t.appendChild(tr);
+            }
+        };
+
+        document.body.onload = function() {
+            var t = document.getElementsByTagName("table")[0];
+
+            initTable(t);
+
+            var step = 50,
+                sWidth = 500,
+                sHeight = 500,
+                tL = 0,
+                tR = 0;
+
+            var block = document.getElementById("square"),
+                command = document.getElementById("command"),
+                sub = document.getElementById("sub"),
+                colArea = document.getElementById("colNum"),
+                clear = document.getElementById("clear"),
+                demo = document.getElementById("demo"),
+                turnL = document.getElementById("turnL"),
+                turnR = document.getElementById("turnR");
+
+            var com,
+                lineCnt = 1;
+
+            var checkLine = function() {
+                var comm = command.value;
+                lineCnt = 1;
+                colArea.value = "1";
+                for (var i = 0; i < comm.length; i++) {
+                    if (comm[i] == "\n") {
+                        lineCnt++;
+                        colArea.value += "\n" + lineCnt;
+                    }
+                }
+            };
+
+            command.onscroll = function() {
+                colArea.scrollTop = this.scrollTop;
+            };
+
+            command.onkeyup = function(e) {
+                if (e.keyCode == 13) {
+                    lineCnt++;
+                    colArea.value += "\n" + lineCnt;
+                } else if (e.keyCode == 8) {
+                    checkLine();
+                }
+            };
+
+            clear.onclick = function() {
+                command.value = "";
+                checkLine();
+            };
+
+            demo.onclick = function() {
+                command.value = "right 4\ndown 4\nleft 4\nup 4";
+                checkLine();
+                sub.click();
+            };
+
+            turnL.onclick = function() {
+                tL++;
+                block.style.transform = "rotate("+(tL-tR)*90+"deg)";
+            }
+
+            turnR.onclick = function() {
+                tR++;
+                block.style.transform = "rotate("+(tL-tR)*90+"deg)";
+            }
+
+            sub.onclick = function() {
+                com = command.value;
+                if (com[2] == "k") {
+                    com = "";
+                    alert("input the right command");
+                } else if (com.trim() == "") {
+                    alert("empty input");
+                }
+
+                var commands = com.split("\n");
+                for (var i = 0; i < commands.length; i++) {
+                    (function(j) {
+                        com = commands[j];
+                        var com1 = com.trim().split(" ")[0],
+                            com2 = parseInt(com.trim().split(" ")[1]);
+                        switch (com1) {
+                            case "left":
+                                setTimeout(function() {
+                                    var bLeft = parseInt(block.style.left);
+                                    if (bLeft >= com2 * step) {
+                                        // break;
+                                        block.style.left = bLeft - com2 * step + "px";
+                                    } else {
+                                        alert("left break!!");
+                                    }
+                                }, j * 1000);
+                                break;
+                            case "right":
+                                setTimeout(function() {
+                                    var bLeft = parseInt(block.style.left);
+                                    if (bLeft + 50 + com2 * step <= sWidth) {
+                                        // break;
+                                        block.style.left = bLeft + com2 * step + "px";
+                                    } else {
+                                        alert("right break!!");
+                                    }
+                                }, j * 1000);
+                                break;
+                            case "up":
+                                setTimeout(function() {
+                                    var bTop = parseInt(block.style.top);
+                                    if (bTop >= com2 * step) {
+                                        // break;
+                                        block.style.top = bTop - com2 * step + "px";
+                                    } else {
+                                        alert("top break!!");
+                                    }
+                                }, j * 1000);
+                                break;
+                            case "down":
+                                setTimeout(function() {
+                                    var bTop = parseInt(block.style.top);
+                                    if (bTop + com2 * step + 50 <= sHeight) {
+                                        // break;
+                                        block.style.top = bTop + com2 * step + "px";
+                                    } else {
+                                        alert("down break!!");
+                                    }
+                                }, j * 1000);
+                                break;
+                            default:
+                                alert("enter the correct command");
+                        }
+                    })(i);
+                }
+            };
+        };
+    </script>
+</body>
+
+</html>

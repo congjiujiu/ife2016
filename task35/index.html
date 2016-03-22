@@ -32,6 +32,7 @@
                 color: #fff;
                 font-size: 1.2em;
                 overflow-y: visible;
+                margin-left: -4px;
             }
 
             #sub, #clear, #demo {
@@ -59,9 +60,7 @@
     </head>
     <body>
         <div id="main">
-            <div id="block" style="top: 0px; left: 0px;">
-
-            </div>
+            <div id="block" style="top: 0px; left: 0px;"></div>
         </div>
         <div>
             <textarea id="colNum" rows="10086" cols="1">1</textarea>
@@ -171,7 +170,7 @@ like : right 4 , down 3 , left 3 , up 4
                                             // break;
                                             block.style.top = bTop - com2 * step + "px";
                                         } else {
-                                            alert("fuck break!!");
+                                            alert("top break!!");
                                         }
                                     }, j*1000);
                                     break;
@@ -182,7 +181,7 @@ like : right 4 , down 3 , left 3 , up 4
                                             // break;
                                             block.style.top = bTop + com2 * step + "px";
                                         } else {
-                                            alert("shit break!!");
+                                            alert("down break!!");
                                         }
                                     }, j*1000);
                                     break;
