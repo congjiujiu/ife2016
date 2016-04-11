@@ -39,9 +39,12 @@
         var alertWindow = document.querySelector(".floatLevel > div");
         var openButton = document.getElementById("openLevel");
         var closeButton = document.getElementById("windowCancel");
+        var windowTitle = document.getElementById("windowTitle");
 
         var alertWidth = parseInt(getStyle(alertWindow, "width")),
             alertHeight = parseInt(getStyle(alertWindow, "height"));
+
+        var dx = dy = 0;
 
         initFloatDiv(floatDiv, windowWidth, windowHeight, alertWindow, alertWidth, alertHeight);
 
@@ -57,6 +60,30 @@
             if (e.target && e.target.className == "floatLevel") {
                 closeFloatDiv();
             }
+        };
+
+        alertWindow.onmousedown = function(e) {
+            var e = e || window.event,
+                x = e.offsetX,
+                y = e.offsetY;
+
+            dx = x - parseInt(getStyle(alertWindow, 'left')),
+            dy = y - parseInt(getStyle(alertWindow, 'top'));
+
+            document.onmousemove = function(e) {
+                var e = e || window.event,
+                    x = e.offsetX,
+                    y = e.offsetY;
+
+                alertWindow.style.top = y - dy + "px";
+                alertWindow.style.left = x - dx + "px";
+                console.log(x+"   "+y+"\n"+dx+"   "+dy);
+            };
+
+            document.onmouseup = function() {
+                document.onmousemove = null;
+                document.onmouseup = null;
+            };
         };
     };
 })();

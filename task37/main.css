@@ -20,6 +20,7 @@ body > div {
     height: 15%;
     color: #fff;
     background-color: rgb(104, 104, 106);
+    cursor: move;
 }
 
 .floatLevel > div > #windowBody {
