@@ -77,7 +77,6 @@
 
                 alertWindow.style.top = y - dy + "px";
                 alertWindow.style.left = x - dx + "px";
-                console.log(x+"   "+y+"\n"+dx+"   "+dy);
             };
 
             document.onmouseup = function() {
