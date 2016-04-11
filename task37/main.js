@@ -9,6 +9,7 @@
         }
     };
 
+    // 初始化 浮出层 以及 窗口的样式
     function initFloatDiv(div, width, height, innerDiv, iwidth, iheight) {
         div.style.width = width+"px";
         div.style.height = height+"px";
@@ -21,11 +22,13 @@
         innerDiv.style.left = (width - iwidth)/2 + "px";
     };
 
+    // 关闭 浮出层
     function closeFloatDiv() {
         var div = document.getElementsByClassName("floatLevel")[0];
         div.style.display = "none";
     }
 
+    // 打开 浮出层
     function openFloatDiv() {
         var div = document.getElementsByClassName("floatLevel")[0];
         div.style.display = "block";
@@ -48,6 +51,7 @@
 
         initFloatDiv(floatDiv, windowWidth, windowHeight, alertWindow, alertWidth, alertHeight);
 
+        // 打开、关闭 浮出层 事件
         openButton.onclick = function() {
             openFloatDiv();
         };
@@ -62,6 +66,7 @@
             }
         };
 
+        // 拖拽窗口 事件
         alertWindow.onmousedown = function(e) {
             var e = e || window.event,
                 x = e.offsetX,
