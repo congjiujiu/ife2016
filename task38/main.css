@@ -1,0 +1,26 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+table {
+    margin: 0 auto;
+}
+
+table td {
+    width: 120px;
+    height: 35px;
+    text-align: center;
+    border-right: 2px solid rgb(181, 185, 185);
+    border-bottom: 2px solid rgb(181, 185, 185);
+}
+
+table tr:first-child td {
+    background-color: rgb(40, 39, 39);
+    color: #fff;
+    border-top: 2px solid rgb(181, 185, 185);
+}
+
+table tr td:first-child {
+    border-left: 2px solid rgb(181, 185, 185);
+}
